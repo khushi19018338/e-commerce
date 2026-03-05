@@ -23,13 +23,22 @@ API.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     
+    // If network error and not yet retried, try up to 3 times
     if (error.code === 'ERR_NETWORK' && !originalRequest._retry) {
       originalRequest._retry = true;
-      console.log("Retrying request - backend may be waking up...");
+      originalRequest._retryCount = originalRequest._retryCount || 0;
       
-      await new Promise(resolve => setTimeout(resolve, 5000));
-      
-      return API(originalRequest);
+      // Only retry up to 3 times
+      if (originalRequest._retryCount < 3) {
+        originalRequest._retryCount++;
+        console.log(`Retrying request (attempt ${originalRequest._retryCount})...`);
+        
+        // Wait longer between retries (5s, 10s, 15s)
+        const delay = originalRequest._retryCount * 5000;
+        await new Promise(resolve => setTimeout(resolve, delay));
+        
+        return API(originalRequest);
+      }
     }
     
     return Promise.reject(error);

@@ -45,7 +45,8 @@ function RegisterAdmin() {
 
     } catch (error) {
       console.error("Error:", error);
-      alert("Admin registration failed");
+      const errorMessage = error.response?.data?.message || error.message || "Admin registration failed. Please try again.";
+      alert(errorMessage);
     }
   };
 

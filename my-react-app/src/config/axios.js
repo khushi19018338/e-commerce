@@ -1,10 +1,14 @@
 import axios from "axios";
 
+// Detect environment and set appropriate API URL
+// - Development (localhost): Uses Vite proxy
+// - Production (Vercel): Uses deployed backend URL
+const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+
 const API = axios.create({
-  baseURL: "https://e-commerce-er9b.onrender.com/api/v1",
-  headers: {
-    "Content-Type": "application/json"
-  },
+  baseURL: isProduction 
+    ? "https://e-commerce-er9b.onrender.com/api/v1" 
+    : (import.meta.env.VITE_API_URL || "/api/v1"),
   timeout: 60000
 });
 

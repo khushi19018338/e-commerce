@@ -58,7 +58,7 @@ function ProductDetails() {
         <div className="product-details-image">
           {product.image ? (
             <img 
-              src={`http://localhost:5000${product.image}`} 
+              src={`https://e-commerce-er9b.onrender.com${product.image}`} 
               alt={product.name}
               style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "8px" }}
             />

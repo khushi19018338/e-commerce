@@ -225,7 +225,7 @@ function AdminProducts() {
           <div key={p._id} style={{ border: "1px solid #ddd", padding: "15px", borderRadius: "8px" }}>
             {p.image && (
               <img 
-                src={`http://localhost:5000${p.image}`} 
+                src={`https://e-commerce-er9b.onrender.com${p.image}`} 
                 alt={p.name}
                 style={{ width: "100%", height: "200px", objectFit: "cover", borderRadius: "4px" }}
               />

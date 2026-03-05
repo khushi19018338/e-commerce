@@ -3,7 +3,7 @@ import ProductCard from "../components/ProductCard";
 
 function Home() {
 
-  const { products } = useProducts();
+  const { products, loading, error, fetchProducts } = useProducts();
 
   return (
     <div className="home-page">
@@ -23,6 +23,15 @@ function Home() {
           <p>Check out our latest collection</p>
         </section>
 
+        {error && (
+          <div className="error-state" style={{ textAlign: 'center', padding: '20px' }}>
+            <p style={{ color: 'red' }}>{error}</p>
+            <button onClick={() => fetchProducts()} className="btn btn-primary">
+              Try Again
+            </button>
+          </div>
+        )}
+
         <div className="grid">
 
           {(products || []).slice(0,4).map((p) => (
@@ -36,7 +45,7 @@ function Home() {
 
         </div>
 
-        {(products || []).length === 0 && (
+        {!loading && !error && (products || []).length === 0 && (
           <div className="empty-state">
             <div className="empty-icon">🛒</div>
             <h3 className="empty-title">No products available</h3>

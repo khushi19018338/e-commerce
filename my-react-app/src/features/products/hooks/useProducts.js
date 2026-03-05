@@ -5,25 +5,21 @@ export default function useProducts() {
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchProducts = async (params = {}) => {
+    setLoading(true);
+    setError(null);
 
     try {
-
       const res = await getProducts(params);
-
-      // Backend returns { total, page, pages, products }
       setProducts(res.data.products || []);
-
     } catch (err) {
-
       console.log(err);
+      setError(err.message || "Failed to load products");
       setProducts([]);
-
     } finally {
-
       setLoading(false);
-
     }
   };
 
@@ -34,6 +30,7 @@ export default function useProducts() {
   return {
     products,
     loading,
+    error,
     fetchProducts
   };
 }
